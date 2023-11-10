@@ -1,10 +1,8 @@
-package com.aliceresponde.aristiinstagramcompose.ui.theme
+package com.aliceresponde.aristiinstagramcompose
 
 import android.app.Activity
 import android.util.Patterns
-import android.widget.ImageButton
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -43,14 +41,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.KeyboardType.Companion.Email
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.aliceresponde.aristiinstagramcompose.R
+import com.aliceresponde.aristiinstagramcompose.ui.theme.BlueFB
+
 @Composable
 fun LoginScreen() {
     Box(Modifier.fillMaxSize().padding(8.dp)) {
