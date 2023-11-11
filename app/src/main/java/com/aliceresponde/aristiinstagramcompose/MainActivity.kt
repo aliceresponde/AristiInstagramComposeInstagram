@@ -18,8 +18,12 @@ class MainActivity : ComponentActivity() {
         setContent {
             AristiInstagramComposeTheme {
                 // A surface container using the 'background' color from the theme
-                Surface(modifier = Modifier.fillMaxSize(), color =TwitterBackground) {
-                    TwitterScreen()
+                Surface(modifier = Modifier.fillMaxSize(), color = TwitterBackground) {
+                    MyHeroesVerticalWithStickyHeadersByPublisherView()
+                //MyHeroesVerticalViewWithScrollControls()
+                //MyHeroesHorizontalView()
+                    //MyHeroesVerticalGridView()
+                    //TwitterScreen()
                 }
             }
         }
