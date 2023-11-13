@@ -1,7 +1,6 @@
-package com.aliceresponde.aristiinstagramcompose
+package com.aliceresponde.aristiinstagramcompose.login.ui
 
 import android.app.Activity
-import android.util.Patterns
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -29,6 +28,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -39,20 +39,20 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.text.input.KeyboardType.Companion.Email
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.aliceresponde.aristiinstagramcompose.R
 import com.aliceresponde.aristiinstagramcompose.ui.theme.BlueFB
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(viewModel: LoginViewModel = LoginViewModel()) {
     Box(Modifier.fillMaxSize().padding(8.dp)) {
         Header(Modifier.align(Alignment.TopEnd))
-        Body(Modifier.align(Alignment.Center))
+        Body(Modifier.align(Alignment.Center), viewModel)
         Footer(Modifier.align(Alignment.BottomCenter))
     }
 }
@@ -96,15 +96,12 @@ fun Header(modifier: Modifier = Modifier) {
     )
 }
 
-fun isEmailAndPasswordValid(email: String, password: String): Boolean {
-    return Patterns.EMAIL_ADDRESS.matcher(email).matches() && password.length > 5
-}
-
 @Composable
-fun Body(modifier: Modifier) {
-    var email by rememberSaveable { mutableStateOf("") }
-    var password by rememberSaveable { mutableStateOf("") }
-    var isLoginEnabled by rememberSaveable { mutableStateOf(false) }
+fun Body(modifier: Modifier, viewModel: LoginViewModel) {
+    //var email by rememberSaveable { mutableStateOf("") }
+    val email: String by viewModel.email.observeAsState("")
+    val password: String by viewModel.password.observeAsState("")
+    val isLoginEnabled: Boolean by viewModel.isEmailAndPasswordValid.observeAsState(false)
 
     Column(
         modifier = modifier,
@@ -112,15 +109,9 @@ fun Body(modifier: Modifier) {
     ) {
         ImageInstagram(modifier = Modifier.padding(bottom = 16.dp))
         Spacer(modifier = Modifier.padding(bottom = 16.dp))
-        EmailField(email) {
-            email = it
-            isLoginEnabled = isEmailAndPasswordValid(email, password)
-        }
+        EmailField(email) { viewModel.onLoginChange(email = it, password) }
         Spacer(modifier = Modifier.padding(bottom = 4.dp))
-        PasswordField(password) {
-            password = it
-            isLoginEnabled = isEmailAndPasswordValid(email, password)
-        }
+        PasswordField(password) { viewModel.onLoginChange(email, password = it) }
         Spacer(modifier = Modifier.padding(bottom = 8.dp))
         ForgotPassword(modifier = Modifier.align(Alignment.End))
         Spacer(modifier = Modifier.padding(bottom = 16.dp))
@@ -156,7 +147,7 @@ fun LoginWithFacebook(modifier: Modifier) {
         Text(
             text = "Log in with Facebook",
             color = BlueFB,
-            fontWeight = FontWeight.Bold
+            fontWeight = Bold
         )
 
     }

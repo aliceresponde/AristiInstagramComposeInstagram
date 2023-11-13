@@ -3,22 +3,9 @@ package com.aliceresponde.aristiinstagramcompose
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.navigation.NavType
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
-import com.aliceresponde.aristiinstagramcompose.Routes.FavScreen
-import com.aliceresponde.aristiinstagramcompose.Routes.HomeScreen
-import com.aliceresponde.aristiinstagramcompose.Routes.SettingsScreen
+import com.aliceresponde.aristiinstagramcompose.login.ui.LoginScreen
 import com.aliceresponde.aristiinstagramcompose.ui.theme.AristiInstagramComposeTheme
-import com.aliceresponde.aristiinstagramcompose.ui.theme.TwitterBackground
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,7 +14,9 @@ class MainActivity : ComponentActivity() {
 
             AristiInstagramComposeTheme {
                 // A surface container using the 'background' color from the theme
-                Surface(color = TwitterBackground) {
+                Surface() {
+                    LoginScreen()
+                    /*
                     val navController = rememberNavController()
                     NavHost(navController = navController, startDestination = FavScreen.route) {
                         composable(FavScreen.route) { FavScreen(navController = navController) }
@@ -47,16 +36,16 @@ class MainActivity : ComponentActivity() {
                                 navController = navController,
                                 backStackEntry.arguments?.getString("name") ?: "pepe"
                             )
-                        }
-                        //MyScaffoldSample()
-                        //MyHeroesVerticalWithStickyHeadersByPublisherView()
-                        //MyHeroesVerticalViewWithScrollControls()
-                        //MyHeroesHorizontalView()
-                        //MyHeroesVerticalGridView()
-                        //TwitterScreen()
-                    }
+                        }*/
+                    //MyScaffoldSample()
+                    //MyHeroesVerticalWithStickyHeadersByPublisherView()
+                    //MyHeroesVerticalViewWithScrollControls()
+                    //MyHeroesHorizontalView()
+                    //MyHeroesVerticalGridView()
+                    //TwitterScreen()
                 }
             }
         }
     }
 }
+
