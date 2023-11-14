@@ -3,11 +3,14 @@ package com.aliceresponde.aristiinstagramcompose
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.material3.Surface
 import com.aliceresponde.aristiinstagramcompose.login.ui.LoginScreen
+import com.aliceresponde.aristiinstagramcompose.login.ui.LoginViewModel
 import com.aliceresponde.aristiinstagramcompose.ui.theme.AristiInstagramComposeTheme
 
 class MainActivity : ComponentActivity() {
+    private val loginViewModel : LoginViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -15,7 +18,7 @@ class MainActivity : ComponentActivity() {
             AristiInstagramComposeTheme {
                 // A surface container using the 'background' color from the theme
                 Surface() {
-                    LoginScreen()
+                    LoginScreen(loginViewModel)
                     /*
                     val navController = rememberNavController()
                     NavHost(navController = navController, startDestination = FavScreen.route) {

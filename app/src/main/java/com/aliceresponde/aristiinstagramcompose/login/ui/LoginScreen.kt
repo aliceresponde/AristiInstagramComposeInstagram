@@ -1,6 +1,7 @@
 package com.aliceresponde.aristiinstagramcompose.login.ui
 
 import android.app.Activity
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Visibility
@@ -49,12 +51,23 @@ import com.aliceresponde.aristiinstagramcompose.R
 import com.aliceresponde.aristiinstagramcompose.ui.theme.BlueFB
 
 @Composable
-fun LoginScreen(viewModel: LoginViewModel = LoginViewModel()) {
-    Box(Modifier.fillMaxSize().padding(8.dp)) {
-        Header(Modifier.align(Alignment.TopEnd))
-        Body(Modifier.align(Alignment.Center), viewModel)
-        Footer(Modifier.align(Alignment.BottomCenter))
-    }
+fun LoginScreen(viewModel: LoginViewModel) {
+    val isLoading: Boolean by viewModel.isLoading.observeAsState(false)
+    if (!isLoading) {
+        Box(Modifier.fillMaxSize().padding(8.dp)) {
+            Header(Modifier.align(Alignment.TopEnd))
+            Body(Modifier.align(Alignment.Center), viewModel)
+            Footer(Modifier.align(Alignment.BottomCenter))
+        }
+    } else
+        FullScreenCircleLoading(Modifier.fillMaxSize())
+}
+
+@Composable
+private fun FullScreenCircleLoading(modifier: Modifier) {
+    Box(
+        modifier = modifier.fillMaxSize()
+    ) { CircularProgressIndicator(modifier = Modifier.align(Alignment.Center).size(50.dp)) }
 }
 
 @Composable
@@ -102,20 +115,19 @@ fun Body(modifier: Modifier, viewModel: LoginViewModel) {
     val email: String by viewModel.email.observeAsState("")
     val password: String by viewModel.password.observeAsState("")
     val isLoginEnabled: Boolean by viewModel.isEmailAndPasswordValid.observeAsState(false)
-
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         ImageInstagram(modifier = Modifier.padding(bottom = 16.dp))
         Spacer(modifier = Modifier.padding(bottom = 16.dp))
-        EmailField(email) { viewModel.onLoginChange(email = it, password) }
+        EmailField(email) { viewModel.onLoginChange(email = it, password = password) }
         Spacer(modifier = Modifier.padding(bottom = 4.dp))
         PasswordField(password) { viewModel.onLoginChange(email, password = it) }
         Spacer(modifier = Modifier.padding(bottom = 8.dp))
         ForgotPassword(modifier = Modifier.align(Alignment.End))
         Spacer(modifier = Modifier.padding(bottom = 16.dp))
-        LoginButton(modifier = Modifier.align(Alignment.End), isLoginEnabled)
+        LoginButton(modifier = Modifier.align(Alignment.End), isEnabled = isLoginEnabled, viewModel)
         Spacer(modifier = Modifier.padding(bottom = 16.dp))
         OrDivider(modifier = Modifier.align(Alignment.CenterHorizontally))
         Spacer(modifier = Modifier.padding(bottom = 32.dp))
@@ -170,9 +182,9 @@ fun OrDivider(modifier: Modifier) {
 }
 
 @Composable
-fun LoginButton(modifier: Modifier, isEnabled: Boolean, onClick: () -> Unit = {}) {
+fun LoginButton(modifier: Modifier, isEnabled: Boolean, viewModel: LoginViewModel) {
     Button(
-        onClick = { onClick() },
+        onClick = { viewModel.onDoLogin() },
         modifier = modifier
             .fillMaxWidth(),
         shape = RectangleShape,
