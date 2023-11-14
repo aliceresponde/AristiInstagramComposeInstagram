@@ -8,9 +8,11 @@ import androidx.compose.material3.Surface
 import com.aliceresponde.aristiinstagramcompose.login.ui.LoginScreen
 import com.aliceresponde.aristiinstagramcompose.login.ui.LoginViewModel
 import com.aliceresponde.aristiinstagramcompose.ui.theme.AristiInstagramComposeTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private val loginViewModel : LoginViewModel by viewModels()
+    private val loginViewModel : LoginViewModel by viewModels()  // inject VM
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {

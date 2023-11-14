@@ -1,12 +1,10 @@
 package com.aliceresponde.aristiinstagramcompose.login.data.network
 
-import com.aliceresponde.aristiinstagramcompose.core.network.RetrofitHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class LoginService {
-    // it should receive RetrofitInstance  as a parameter
-    private val loginApiClient = RetrofitHelper.getRetrofit().create(LoginApiClient::class.java)
+class LoginService @Inject constructor(private val loginApiClient: LoginApiClient) {
 
     suspend fun doLogin(user: String, password: String): Boolean {
         return withContext(Dispatchers.IO) {
